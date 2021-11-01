@@ -5,7 +5,14 @@ TEXT_REGEX_EN = "We offer you 100K"
 TEXT_NO_REGEX_UNKNOWN = ""
 
 MESSAGE_IDENTIFIER = "2-NGY0ZGYxYjUtNDc0MS01ZGY0LTkzMjctYmIyMzZkYzZmNjkwXzAwMA=="
-RESPONSE_CONVERSATIONS = {"elements": [{"backendUrn": f"urn:li:{MESSAGE_IDENTIFIER}"}]}
+RESPONSE_CONVERSATIONS = {
+    "elements": [
+        {
+            "backendUrn": f"urn:li:messagingThread:{MESSAGE_IDENTIFIER}",
+            "participants": [{"com.linkedin.voyager.messaging.MessagingMember": {"miniProfile": {"firstName": "Foo"}}}],
+        }
+    ]
+}
 
 
 def _build_event_content(text):
