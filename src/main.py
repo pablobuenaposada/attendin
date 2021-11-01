@@ -10,8 +10,12 @@ from constants import DEFAULT_ANSWERS, DEFAULT_REGEXES
 def main(username, password, regexes=DEFAULT_REGEXES, answers=DEFAULT_ANSWERS):
     linkedin = Linkedin(username, password)
 
-    for conversation in linkedin.get_conversations()["elements"]:
-        conversation_urn_id = conversation["backendUrn"].split(":")[2]
+    for conversation in linkedin.get_conversations()["elements"][:10]:
+        conversation_urn_id = conversation["backendUrn"].split(":")[3]
+        requester = conversation["participants"][0]["com.linkedin.voyager.messaging.MessagingMember"]["miniProfile"][
+            "firstName"
+        ]
+        print(f"checking conversation {conversation_urn_id} from {requester}", end="")
         messages = linkedin.get_conversation(conversation_urn_id)["elements"]
         if len(messages) == 1:  # means conversation has been never replied
             first_message = messages[0]["eventContent"]["com.linkedin.voyager.messaging.event.MessageEvent"][
@@ -25,8 +29,10 @@ def main(username, password, regexes=DEFAULT_REGEXES, answers=DEFAULT_ANSWERS):
                     continue  # if no language detected this conversation is skipped
                 try:
                     linkedin.send_message(answers[message_language], conversation_urn_id=conversation_urn_id)
+                    print(" AUTO REPLIED!", end="")
                 except KeyError:
                     continue  # if there's no answer set up for the language detected conversation is skipped
+        print()
 
 
 if __name__ == "__main__":

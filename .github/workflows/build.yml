@@ -13,6 +13,6 @@ jobs:
     - name: Build docker image
       run: |
         make docker/build
-    - name: Lint, unit tests
+    - name: Lint and unit tests
       run: |
         make docker/tests
