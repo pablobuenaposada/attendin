@@ -42,5 +42,6 @@ if __name__ == "__main__":
     parser.add_argument("--regexes", action="append")
     parser.add_argument("--answers", action="append")
     args = parser.parse_args()
-    input = {key: value for key, value in args.__dict__.items() if value is not None}  # delete values with none
+    # delete values with none or ""
+    input = {key: value for key, value in args.__dict__.items() if not value == [""] or value is None}
     main(**input)
