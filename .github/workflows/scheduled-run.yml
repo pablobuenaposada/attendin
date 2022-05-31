@@ -1,0 +1,16 @@
+name: Scheduled FitBot run
+
+on:
+  schedule:
+  - cron: "0 * * * *"
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
+      - name: Build docker image
+        run: make docker/build
+      - name: Run attendin
+        run: docker run -e username={{ secrets.EMAIL }} -e password={{ secrets.PASSWORD }} attendin
